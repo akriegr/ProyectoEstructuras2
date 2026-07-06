@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Categoria">
+      <UniqueIdentifier>{9f3ed97e-8e7c-436e-8f0a-c4bce54b4984}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProyectoEstructuraDatos.cpp">
@@ -25,6 +28,15 @@
   <ItemGroup>
     <ClInclude Include="DBManager.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoJuego.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Categoria.h">
+      <Filter>Header Files\Categoria</Filter>
+    </ClInclude>
+    <ClInclude Include="ICategoriaDAO.h">
+      <Filter>Header Files\Categoria</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
