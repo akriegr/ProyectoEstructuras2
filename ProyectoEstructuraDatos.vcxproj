@@ -142,13 +142,16 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CateogiraDAO.cpp" />
     <ClCompile Include="DBManager.cpp" />
     <ClCompile Include="ProyectoEstructuraDatos.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Categoria.h" />
+    <ClInclude Include="CategoriaDAO.h" />
     <ClInclude Include="DBManager.h" />
     <ClInclude Include="ICategoriaDAO.h" />
+    <ClInclude Include="ServicioCategoria.h" />
     <ClInclude Include="VideoJuego.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

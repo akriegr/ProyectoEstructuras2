@@ -18,7 +18,8 @@ class DBManager {
 		void disconnect();
 		bool isConnected() const;
 
-		std::unique_ptr<sql::ResultSet> executeQuery(const std::string& query);
+		std::pair< std::unique_ptr<sql::Statement>,std::unique_ptr<sql::ResultSet>> executeQueryWithStatement(const std::string& query);
+		int executeUpdate(const std::string& query);
 		sql::Connection* getConnection() const { return conn_.get(); }
 
 	private:
