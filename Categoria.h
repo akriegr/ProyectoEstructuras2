@@ -16,9 +16,8 @@ public:
 	//getters y setters
 	int getId() const { return id; }
 	void setId(int id) { this->id = id; }
+
 	string getNombre() const { return nombre; }
 	void setNombre(const string& nombre) { this->nombre = nombre; }
-
-
 
 };

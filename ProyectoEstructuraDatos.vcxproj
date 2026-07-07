@@ -142,17 +142,21 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CateogiraDAO.cpp" />
+    <ClCompile Include="CategoriaDAO.cpp" />
     <ClCompile Include="DBManager.cpp" />
     <ClCompile Include="ProyectoEstructuraDatos.cpp" />
+    <ClCompile Include="VideoJuegoDAO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Categoria.h" />
     <ClInclude Include="CategoriaDAO.h" />
     <ClInclude Include="DBManager.h" />
     <ClInclude Include="ICategoriaDAO.h" />
+    <ClInclude Include="IVideoJuegoDAO.h" />
     <ClInclude Include="ServicioCategoria.h" />
+    <ClInclude Include="ServicioVideoJuego.h" />
     <ClInclude Include="VideoJuego.h" />
+    <ClInclude Include="VideoJuegoDAO.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,6 +3,8 @@
 #include <memory>
 #include "CategoriaDAO.h"
 #include "ServicioCategoria.h"
+#include "VideoJuegoDAO.h"
+#include "ServicioVideoJuego.h"
 
 //inlcuyo DAO y Servicio
 
@@ -15,10 +17,24 @@ int main() {
         }
 
 		ServicioCategoria servicioCategoria(std::make_unique<CategoriaDAO>(dbManager));
+
         vector<Categoria> listaCategoria= servicioCategoria.obtenerTodasCategorias();
 		for (int i = 0; i < listaCategoria.size(); i++) {
 			std::cout << "ID: " << listaCategoria[i].getId() << ", Nombre: " << listaCategoria[i].getNombre() << std::endl;
 		}
+
+        ServicioVideoJuego servicioVideoJuego(std::make_unique < VideoJuegoDAO>(dbManager));
+
+        vector<VideoJuego>listaVideoJuegos = servicioVideoJuego.obtenerTodosVideoJuegos();
+        for (int i = 0;i < listaVideoJuegos.size(); i++) {
+            std::cout << "ID: " << listaVideoJuegos[i].getId() << ", Nombre: " << listaVideoJuegos[i].getNombre() << ",Categoria: " << listaVideoJuegos[i].getCategoria().getNombre()<<std::endl;
+        }
+
+		cout << "Digite el id de la categoria que desea buscar: ";
+		int opcion = 0;
+		cin >> opcion;
+		std::optional<Categoria> categoriEncontrada = servicioCategoria.obtenerCategoriaPorId(opcion);
+		cout << "Categoria encontrada: " << categoriEncontrada->getNombre() << endl;
 
         dbManager.disconnect();
     }

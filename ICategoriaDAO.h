@@ -11,12 +11,11 @@ public:
 
 	//Crud basico
 	//virtual bool insertar(const Categoria& categoria) = 0;
-	//virtual optional<Categoria> obtenerPorId(int id) = 0;
+	virtual optional<Categoria> obtenerPorId(int id) = 0;
 	virtual vector <Categoria>ObtenerCategorias() = 0;
 	//virtual bool actualizar(const Categoria& categoria) = 0;
 	//virtual bool eliminar(int id) = 0;	
 
 	//Consultas adicionales
-
 
 };

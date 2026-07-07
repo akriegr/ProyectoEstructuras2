@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Categoria">
       <UniqueIdentifier>{ad83b425-697b-4c1c-bff2-204aebb323ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\VideoJuego">
+      <UniqueIdentifier>{2e702316-e264-43f0-af9f-b02c7c44e15c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\VideoJuego">
+      <UniqueIdentifier>{0e569c83-905e-4041-b3f7-2e6e36a909b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProyectoEstructuraDatos.cpp">
@@ -27,15 +33,15 @@
     <ClCompile Include="DBManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CateogiraDAO.cpp">
+    <ClCompile Include="CategoriaDAO.cpp">
       <Filter>Source Files\Categoria</Filter>
+    </ClCompile>
+    <ClCompile Include="VideoJuegoDAO.cpp">
+      <Filter>Source Files\VideoJuego</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DBManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VideoJuego.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Categoria.h">
@@ -49,6 +55,18 @@
     </ClInclude>
     <ClInclude Include="ServicioCategoria.h">
       <Filter>Header Files\Categoria</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoJuego.h">
+      <Filter>Header Files\VideoJuego</Filter>
+    </ClInclude>
+    <ClInclude Include="IVideoJuegoDAO.h">
+      <Filter>Header Files\VideoJuego</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoJuegoDAO.h">
+      <Filter>Header Files\VideoJuego</Filter>
+    </ClInclude>
+    <ClInclude Include="ServicioVideoJuego.h">
+      <Filter>Header Files\VideoJuego</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

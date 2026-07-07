@@ -36,3 +36,22 @@ std::vector<Categoria> CategoriaDAO::ObtenerCategorias() {
 	}
 	return categorias;
 }
+
+//Read by ID
+std::optional<Categoria> CategoriaDAO::obtenerPorId(int id) {
+	try {
+		std::string query = "SELECT * FROM categoria WHERE id_categoria = "+std::to_string(id);
+		auto [stmt, rs] = dbManager.executeQueryWithStatement(query);
+		if (rs->next()) {
+			Categoria cat = mapResultSet(rs.get());
+			return cat;
+		}
+		else {
+			return std::nullopt; // No se encontró la categoría
+		}
+	}
+	catch (const sql::SQLException& e) {
+		std::cerr << "Error fetching category by ID: " << e.what() << std::endl;
+		return std::nullopt;
+	}
+}
