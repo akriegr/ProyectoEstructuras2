@@ -23,8 +23,22 @@ void inicializarArbol() {
     }
     catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << std::endl;
-        }
+    }
 
+}
+
+void insertarVideoJuego(string nombre, int idCategoria) {
+    try {
+        auto& dbManager = DBManager::getInstance();
+        ServicioVideoJuego servicioVideoJuego(std::make_unique < VideoJuegoDAO>(dbManager));
+        
+	    servicioVideoJuego.insertarVideoJuego(nombre, idCategoria);
+
+        dbManager.disconnect();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
 }
 
 int main() {
@@ -38,6 +52,7 @@ int main() {
         cout << "2. Buscar Video Juego" << endl;
         cout << "3. Eliminar Video Juego" << endl;
 		cout << "4. Actualizar Video Juego" << endl;
+		cout << "5. Insertar Video Juego" << endl;
         cout << "7. Salir" << endl;
         cin >> opcion;
 
@@ -103,6 +118,13 @@ int main() {
                 }
                 break;
                 system("pause");
+            }
+            case 5: {
+				system("cls");
+				string nombre = "CLASH OF CLANS";
+				int idCategoria = 2; // Asignar un ID de categoría válido
+				insertarVideoJuego(nombre, idCategoria);
+				system("pause");
             }
             case 7: {
                 cout << "Saliendo del programa..." << endl;

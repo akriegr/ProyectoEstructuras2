@@ -11,7 +11,7 @@ private:
 
 public:
 	VideoJuegoDAO(DBManager& manager);
-	//virtual bool insertar(const VideoJuego& videojuego) override;
+	virtual int insertar(string nombre, int idCategoria) override;
 	//virtual optional<VideoJuego> obtenerPorId(int id) override;
 	virtual vector <VideoJuego>ObtenerVideoJuegos() override;
 	//virtual bool actualizar(const VideoJuego& videojuego) override;

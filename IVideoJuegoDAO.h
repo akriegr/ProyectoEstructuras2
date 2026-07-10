@@ -10,7 +10,7 @@ public:
 	virtual ~IVideoJuegoDAO() = default;
 
 	//Crud basico
-	//virtual bool insertar(const VideoJuego& videojuego) = 0;
+	virtual int insertar(string nombre, int idCategoria) = 0;
 	//virtual optional<VideoJuego> obtenerPorId(int id) = 0;
 	virtual vector <VideoJuego>ObtenerVideoJuegos() = 0;
 	//virtual bool actualizar(const VideoJuego& videojuego) = 0;
