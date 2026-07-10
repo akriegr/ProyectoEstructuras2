@@ -11,16 +11,9 @@ private:
 public:
 	ServicioVideoJuego(std::unique_ptr<IVideoJuegoDAO> dao) : videojuegoDAO(std::move(dao)) {}
 
-	void insertarVideoJuego(string nombre, int idCategoria) {
+	int insertarVideoJuego(string nombre, int idCategoria) {
 		int resultado =  videojuegoDAO->insertar(nombre,idCategoria);
-		if (resultado == 1) {
-			cout << "VideoJuego insertado exitosamente" << endl;
-		}else if(resultado == 2){
-			cout << "Error al insertar el videojuego" << endl;
-		}
-		else if (resultado == 3) {
-			cout << "Error en la base de datos!" << endl;
-		}
+		return resultado;
 	}
 
 	//metodos para interactuar con la bd

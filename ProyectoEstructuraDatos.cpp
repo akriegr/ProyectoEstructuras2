@@ -6,6 +6,7 @@
 #include "VideoJuegoDAO.h"
 #include "ServicioVideoJuego.h"
 #include "ArbolBPlus.h"
+using namespace std;
 
 //inlcuyo DAO y Servicio
 
@@ -14,7 +15,7 @@ ArbolBPlus arbolito;
 void inicializarArbol() {
     try {
         auto& dbManager = DBManager::getInstance();
-        ServicioVideoJuego servicioVideoJuego(std::make_unique < VideoJuegoDAO>(dbManager));
+        ServicioVideoJuego servicioVideoJuego(make_unique < VideoJuegoDAO>(dbManager));
         vector<VideoJuego>listaVideoJuegos = servicioVideoJuego.obtenerTodosVideoJuegos();
         for (int i = 0;i < listaVideoJuegos.size(); i++) {
             arbolito.insertarVideoJuego(listaVideoJuegos[i]);
@@ -24,21 +25,54 @@ void inicializarArbol() {
     catch (const std::exception& e) {
             std::cerr << "Error: " << e.what() << std::endl;
     }
-
 }
 
-void insertarVideoJuego(string nombre, int idCategoria) {
+int insertarVideoJuego(string nombre, int idCategoria) {
     try {
         auto& dbManager = DBManager::getInstance();
         ServicioVideoJuego servicioVideoJuego(std::make_unique < VideoJuegoDAO>(dbManager));
         
-	    servicioVideoJuego.insertarVideoJuego(nombre, idCategoria);
+	    int resultado = servicioVideoJuego.insertarVideoJuego(nombre, idCategoria);
+
+        return resultado;
 
         dbManager.disconnect();
     }
     catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
     }
+}
+
+void imprimirCategorias() {
+    try {
+        auto& dbManager = DBManager::getInstance();
+        ServicioCategoria servicioCategoria(make_unique <CategoriaDAO>(dbManager));
+        vector<Categoria>listaCategorias = servicioCategoria.obtenerTodasCategorias();
+
+        cout << "*****Lista de Categorias*****" << endl;
+
+        for (int i = 0;i < listaCategorias.size(); i++) {
+            cout << "ID: "<< listaCategorias[i].getId() << "Nombre: " << listaCategorias[i].getNombre() << endl;
+        }
+        dbManager.disconnect();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+}
+
+Categoria obtenerCategoriaPorId(int id) {
+	try {
+		auto& dbManager = DBManager::getInstance();
+		ServicioCategoria servicioCategoria(make_unique <CategoriaDAO>(dbManager));
+		optional <Categoria> categoria = servicioCategoria.obtenerCategoriaPorId(id);
+		dbManager.disconnect();
+		return categoria.value();
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+		return Categoria(); // Retorna una categoría vacía en caso de error
+	}
 }
 
 int main() {
@@ -121,11 +155,35 @@ int main() {
             }
             case 5: {
 				system("cls");
-				string nombre = "CLASH OF CLANS";
-				int idCategoria = 2; // Asignar un ID de categoría válido
-				insertarVideoJuego(nombre, idCategoria);
+                imprimirCategorias();
+
+				int idCategoria;
+				string nombre;
+
+                cout << "Digite el ID de la categoria deseada" << endl;
+                cin >> idCategoria;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+				Categoria categoria = obtenerCategoriaPorId(idCategoria);
+				cout << "Digite el nombre del videojuego: ";
+                getline(cin, nombre);
+
+				int idVideojuego = insertarVideoJuego(nombre, idCategoria);
+                if (idVideojuego == -1) {
+                    cout << "Error al crear VideoJuego" << endl;
+                    return;
+                }
+                else {
+                    VideoJuego videojuego = VideoJuego(idVideojuego, nombre, categoria);
+
+                    arbolito.insertarVideoJuego(videojuego);
+
+                    cout << "VideoJuego insertado exitosamente!" << endl;
+                }
+
 				system("pause");
             }
+
             case 7: {
                 cout << "Saliendo del programa..." << endl;
                 break;

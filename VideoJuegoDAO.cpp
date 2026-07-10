@@ -26,22 +26,34 @@ VideoJuego VideoJuegoDAO::mapResultSet(sql::ResultSet* rs) {
 
 int VideoJuegoDAO::insertar(string nombre, int idCategoria) {
 	try {
-		string query = "INSERT INTO videojuego(nombre, id_categoria) VALUES ('" + nombre + "'," + to_string(idCategoria)+ ")";
+		string query = "INSERT INTO videojuego(nombre, id_categoria) VALUES ('" +
+			nombre + "'," + to_string(idCategoria) + ")";
+
 		sql::Statement* stmt = dbManager.getConnection()->createStatement();
 		int filasAfectadas = stmt->executeUpdate(query);
-		delete stmt;
+
 		if (filasAfectadas > 0) {
-			return 1; // se inserto bien
+			// Obtener el ID generado automáticamente
+			sql::ResultSet* rs = stmt->executeQuery("SELECT LAST_INSERT_ID()");
+			int idGenerado = -1;
+			if (rs->next()) {
+				idGenerado = rs->getInt(1);
+			}
+			delete rs;
+			delete stmt;
+			return idGenerado; // devuelvo el id insertado
 		}
 		else {
-			return 2; // error cuando inserto
+			delete stmt;
+			return -1; // Error: no se insertó ninguna fila
 		}
 	}
 	catch (const sql::SQLException& e) {
-		cerr << "Error fetching video games: " << e.what() << std::endl;
-		return 3;
+		cerr << "Error inserting video game: " << e.what() << std::endl;
+		return -1; // Error de SQL
 	}
 }
+
 
 
 
