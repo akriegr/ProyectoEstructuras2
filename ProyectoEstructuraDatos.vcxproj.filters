@@ -25,6 +25,12 @@
     <Filter Include="Header Files\VideoJuego">
       <UniqueIdentifier>{0e569c83-905e-4041-b3f7-2e6e36a909b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ArbolBPlus">
+      <UniqueIdentifier>{5dd69982-f695-4884-a8a4-6e7a726df1cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ArbolBPlus">
+      <UniqueIdentifier>{ca18fc58-9ec4-40c7-aa58-e5327b92be4b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProyectoEstructuraDatos.cpp">
@@ -38,6 +44,9 @@
     </ClCompile>
     <ClCompile Include="VideoJuegoDAO.cpp">
       <Filter>Source Files\VideoJuego</Filter>
+    </ClCompile>
+    <ClCompile Include="ArbolBPlus.cpp">
+      <Filter>Source Files\ArbolBPlus</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -67,6 +76,9 @@
     </ClInclude>
     <ClInclude Include="ServicioVideoJuego.h">
       <Filter>Header Files\VideoJuego</Filter>
+    </ClInclude>
+    <ClInclude Include="ArbolBPlus.h">
+      <Filter>Header Files\ArbolBPlus</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

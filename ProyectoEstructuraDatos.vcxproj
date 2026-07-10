@@ -142,12 +142,14 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ArbolBPlus.cpp" />
     <ClCompile Include="CategoriaDAO.cpp" />
     <ClCompile Include="DBManager.cpp" />
     <ClCompile Include="ProyectoEstructuraDatos.cpp" />
     <ClCompile Include="VideoJuegoDAO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ArbolBPlus.h" />
     <ClInclude Include="Categoria.h" />
     <ClInclude Include="CategoriaDAO.h" />
     <ClInclude Include="DBManager.h" />

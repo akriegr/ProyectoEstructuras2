@@ -5,10 +5,14 @@
 #include "ServicioCategoria.h"
 #include "VideoJuegoDAO.h"
 #include "ServicioVideoJuego.h"
+#include "ArbolBPlus.h"
 
 //inlcuyo DAO y Servicio
 
 int main() {
+
+    ArbolBPlus arbolito;
+
     try {
         auto& dbManager = DBManager::getInstance();
 
@@ -27,15 +31,19 @@ int main() {
 
         vector<VideoJuego>listaVideoJuegos = servicioVideoJuego.obtenerTodosVideoJuegos();
         for (int i = 0;i < listaVideoJuegos.size(); i++) {
-            std::cout << "ID: " << listaVideoJuegos[i].getId() << ", Nombre: " << listaVideoJuegos[i].getNombre() << ",Categoria: " << listaVideoJuegos[i].getCategoria().getNombre()<<std::endl;
+			arbolito.insertar(listaVideoJuegos[i]);
+            
+            //std::cout << "ID: " << listaVideoJuegos[i].getId() << ", Nombre: " << listaVideoJuegos[i].getNombre() << ",Categoria: " << listaVideoJuegos[i].getCategoria().getNombre()<<std::endl;
         }
 
-		cout << "Digite el id de la categoria que desea buscar: ";
+		arbolito.imprimir();    
+
+		/*cout << "Digite el id de la categoria que desea buscar: ";
 		int opcion = 0;
 		cin >> opcion;
 		std::optional<Categoria> categoriEncontrada = servicioCategoria.obtenerCategoriaPorId(opcion);
 		cout << "Categoria encontrada: " << categoriEncontrada->getNombre() << endl;
-
+        */
         dbManager.disconnect();
     }
     catch (const std::exception& e) {
