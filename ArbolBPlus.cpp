@@ -360,7 +360,7 @@ void ArbolBPlus::imprimir() {
 	}
 	while (nodoActual != nullptr) { //mientras haya nodos hoja
 		for (int i = 0; i < nodoActual->videojuegos.size(); i++) {
-			cout << "Nombre: " << nodoActual->videojuegos[i].getNombre() << ", Categoria: " << nodoActual->videojuegos[i].getCategoria().getNombre() << endl;
+			cout <<" Nombre: " << nodoActual->videojuegos[i].getNombre() << " Categoria: " << nodoActual->videojuegos[i].getCategoria().getNombre() << endl;
 		}
 		nodoActual = nodoActual->siguiente; //voy al siguiente nodo hoja
 	}

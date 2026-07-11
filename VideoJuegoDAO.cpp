@@ -77,5 +77,26 @@ vector<VideoJuego> VideoJuegoDAO::ObtenerVideoJuegos() {
 	return videojuegos;
 }
 
+//UPDATE
+
+bool VideoJuegoDAO::actualizar(int idVideoJuego, string nombreNuevo) {
+	try {
+		string query = "UPDATE videojuego SET nombre = '" + nombreNuevo + "' WHERE id_videojuego = " + to_string(idVideoJuego);
+		sql::Statement* stmt = dbManager.getConnection()->createStatement();
+		int filasAfectadas = stmt->executeUpdate(query);
+		delete stmt;
+		if (filasAfectadas > 0) {
+			return true; // Actualización exitosa
+		}
+		else {
+			return false; // No se encontró el videojuego con el ID proporcionado
+		}
+	}
+	catch (const sql::SQLException& e) {
+		cerr << "Error updating video game: " << e.what() << std::endl;
+		return false; // Error de SQL
+	}
+}
+
 
 //

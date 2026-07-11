@@ -14,7 +14,7 @@ public:
 	virtual int insertar(string nombre, int idCategoria) override;
 	//virtual optional<VideoJuego> obtenerPorId(int id) override;
 	virtual vector <VideoJuego>ObtenerVideoJuegos() override;
-	//virtual bool actualizar(const VideoJuego& videojuego) override;
+	virtual bool actualizar(int idVideoJuego, string nombreNuevo) override;
 	//virtual bool eliminar(int id) override;
 
 };

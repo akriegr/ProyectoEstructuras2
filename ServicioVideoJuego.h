@@ -16,17 +16,21 @@ public:
 		return resultado;
 	}
 
+	std::vector<VideoJuego> obtenerTodosVideoJuegos() {
+		return videojuegoDAO->ObtenerVideoJuegos();
+	}
+
+	bool actualizarVideoJuego(int idVideoJuego, string nombre) {
+		return videojuegoDAO->actualizar(idVideoJuego,nombre);
+	}
+
 	//metodos para interactuar con la bd
 	/*
 
 	std::optional<VideoJuego> obtenerVideoJuegoPorId(int id) {
 		return videojuegoDAO->obtenerPorId(id);
 	}
-	bool actualizarVideoJuego(const VideoJuego& videojuego) {
-		return videojuegoDAO->actualizar(videojuego);
-	}
+
 	*/
-	std::vector<VideoJuego> obtenerTodosVideoJuegos() {
-		return videojuegoDAO->ObtenerVideoJuegos();
-	}
+
 };

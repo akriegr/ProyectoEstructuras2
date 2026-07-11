@@ -61,6 +61,19 @@ void imprimirCategorias() {
     }
 }
 
+bool actualizarVideoJuego(int idVideoJuego, string nombreNuevo) {
+    try {
+        auto& dbManager = DBManager::getInstance();
+        ServicioVideoJuego servicioVideoJuego(std::make_unique < VideoJuegoDAO>(dbManager));
+        bool resultado = servicioVideoJuego.actualizarVideoJuego(idVideoJuego, nombreNuevo);
+        return resultado;
+        dbManager.disconnect();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+}
+
 Categoria obtenerCategoriaPorId(int id) {
 	try {
 		auto& dbManager = DBManager::getInstance();
@@ -141,11 +154,27 @@ int main() {
 			}
             case 4: {
                 system("cls");
-                string nuevoNombre = "WORLD OF WARCRAFT ACT";
-                bool actualizado = arbolito.actualizarVideoJuego("WORLD OF WARCRAFT", nuevoNombre);
+                arbolito.imprimir();
+                string nombre;
+                string nuevoNombre;
+                cout << "\n" << endl;
+                cout << "Digite el nombre del videojuego que desea editar."<<endl;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                getline(cin, nombre);
+                VideoJuego* videoJuego = arbolito.buscar(nombre);
 
-                if (actualizado) {
-                    cout << "VideoJuego actualizado exitosamente" << endl;
+                if (videoJuego != nullptr) {
+                    cout << "Digite el nuevo nombre: " << endl;
+                    getline(cin, nuevoNombre);
+                    bool actualizado = actualizarVideoJuego(videoJuego->getId(), nuevoNombre);
+                    if (actualizado) {
+
+                        arbolito.actualizarVideoJuego(nombre, nuevoNombre);
+                        cout << "VideoJuego actualizado exitosamente" << endl;
+                    }
+                    else {
+                        cout << "No se encontro el videojuego" << endl;
+                    }
                 }
                 else {
                     cout << "No se encontro el videojuego" << endl;
@@ -171,7 +200,7 @@ int main() {
 				int idVideojuego = insertarVideoJuego(nombre, idCategoria);
                 if (idVideojuego == -1) {
                     cout << "Error al crear VideoJuego" << endl;
-                    return;
+                    break;
                 }
                 else {
                     VideoJuego videojuego = VideoJuego(idVideojuego, nombre, categoria);
@@ -182,6 +211,7 @@ int main() {
                 }
 
 				system("pause");
+                break;
             }
 
             case 7: {

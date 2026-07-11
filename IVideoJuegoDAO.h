@@ -13,7 +13,7 @@ public:
 	virtual int insertar(string nombre, int idCategoria) = 0;
 	//virtual optional<VideoJuego> obtenerPorId(int id) = 0;
 	virtual vector <VideoJuego>ObtenerVideoJuegos() = 0;
-	//virtual bool actualizar(const VideoJuego& videojuego) = 0;
+	virtual bool actualizar(int idVideoJuego, string nombreNuevo) = 0;
 	//virtual bool eliminar(int id) = 0;	
 
 	//Consultas adicionales
