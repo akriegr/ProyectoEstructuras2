@@ -15,6 +15,6 @@ public:
 	//virtual optional<VideoJuego> obtenerPorId(int id) override;
 	virtual vector <VideoJuego>ObtenerVideoJuegos() override;
 	virtual bool actualizar(int idVideoJuego, string nombreNuevo) override;
-	//virtual bool eliminar(int id) override;
+	virtual bool eliminar(int id) override;
 
 };

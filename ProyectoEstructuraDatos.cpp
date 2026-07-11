@@ -74,6 +74,19 @@ bool actualizarVideoJuego(int idVideoJuego, string nombreNuevo) {
     }
 }
 
+bool eliminarVideoJuego(int id) {
+	try {
+		auto& dbManager = DBManager::getInstance();
+		ServicioVideoJuego servicioVideoJuego(std::make_unique < VideoJuegoDAO>(dbManager));
+		bool resultado = servicioVideoJuego.eliminarVideoJuego(id);
+		return resultado;
+		dbManager.disconnect();
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+	}
+}
+
 Categoria obtenerCategoriaPorId(int id) {
 	try {
 		auto& dbManager = DBManager::getInstance();
@@ -131,27 +144,33 @@ int main() {
                 }
 			case 3: {
 				system("cls");
-				/*cout << "Digite el nombre del videojuego que desea eliminar: ";
-				string nombre;
-				cin.ignore();
-				getline(cin, nombre);
-				bool eliminado = arbolito.eliminarVideoJuego(nombre);
-				if (eliminado) {
-					cout << "Videojuego eliminado exitosamente" << endl;
-				}
-				else {
-					cout << "No se encontro el videojuego" << endl;
-				}*/
-                bool eliminado = arbolito.eliminarVideoJuego("WORLD OF WARCRAFT");
-                if (eliminado) {
-					cout << "VideoJuego eliminado exitosamente" << endl;
+                string nombre;
+                arbolito.imprimir();
+				
+                cout << "\n" << endl;
+                
+                cout << "Digite el nombre del videojuego que desea eliminar: ";
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                getline(cin, nombre);
+
+				VideoJuego* encontrado = arbolito.buscar(nombre);
+
+                if (encontrado != nullptr) {
+                    bool eliminado = eliminarVideoJuego(encontrado->getId());
+                    if (eliminado) {
+						arbolito.eliminarVideoJuego(nombre);
+						cout << "VideoJuego eliminado exitosamente" << endl;
+                    }
+                    else {
+						cout << "No se pudo eliminar el videojuego" << endl;
+                    }
                 }
                 else {
-					cout << "No se encontro el videojuego" << endl;
+                    cout << "No se encontro el videojuego" << endl;
                 }
 				system("pause");
 				break;
-			}
+			    }
             case 4: {
                 system("cls");
                 arbolito.imprimir();

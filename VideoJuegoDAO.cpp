@@ -54,9 +54,6 @@ int VideoJuegoDAO::insertar(string nombre, int idCategoria) {
 	}
 }
 
-
-
-
 //READ
 
 vector<VideoJuego> VideoJuegoDAO::ObtenerVideoJuegos() {
@@ -94,6 +91,26 @@ bool VideoJuegoDAO::actualizar(int idVideoJuego, string nombreNuevo) {
 	}
 	catch (const sql::SQLException& e) {
 		cerr << "Error updating video game: " << e.what() << std::endl;
+		return false; // Error de SQL
+	}
+}
+
+//DELETE
+bool VideoJuegoDAO::eliminar(int id) {
+	try {
+		string query = "DELETE FROM videojuego WHERE id_videojuego = " + to_string(id);
+		sql::Statement* stmt = dbManager.getConnection()->createStatement();
+		int filasAfectadas = stmt->executeUpdate(query);
+		delete stmt;
+		if (filasAfectadas > 0) {
+			return true; // Eliminación exitosa
+		}
+		else {
+			return false; // No se encontró el videojuego con el ID proporcionado
+		}
+	}
+	catch (const sql::SQLException& e) {
+		cerr << "Error deleting video game: " << e.what() << std::endl;
 		return false; // Error de SQL
 	}
 }

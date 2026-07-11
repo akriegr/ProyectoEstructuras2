@@ -24,6 +24,10 @@ public:
 		return videojuegoDAO->actualizar(idVideoJuego,nombre);
 	}
 
+	bool eliminarVideoJuego(int id) {
+		return videojuegoDAO->eliminar(id);
+	}
+
 	//metodos para interactuar con la bd
 	/*
 
