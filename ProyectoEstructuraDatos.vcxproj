@@ -143,20 +143,27 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ArbolBPlus.cpp" />
+    <ClCompile Include="ArbolRN.cpp" />
     <ClCompile Include="CategoriaDAO.cpp" />
     <ClCompile Include="DBManager.cpp" />
     <ClCompile Include="ProyectoEstructuraDatos.cpp" />
+    <ClCompile Include="UsuarioDAO.cpp" />
     <ClCompile Include="VideoJuegoDAO.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ArbolBPlus.h" />
+    <ClInclude Include="ArbolRN.h" />
     <ClInclude Include="Categoria.h" />
     <ClInclude Include="CategoriaDAO.h" />
     <ClInclude Include="DBManager.h" />
     <ClInclude Include="ICategoriaDAO.h" />
+    <ClInclude Include="IUsuarioDAO.h" />
     <ClInclude Include="IVideoJuegoDAO.h" />
     <ClInclude Include="ServicioCategoria.h" />
+    <ClInclude Include="ServicioUsuario.h" />
     <ClInclude Include="ServicioVideoJuego.h" />
+    <ClInclude Include="Usuario.h" />
+    <ClInclude Include="UsuarioDAO.h" />
     <ClInclude Include="VideoJuego.h" />
     <ClInclude Include="VideoJuegoDAO.h" />
   </ItemGroup>

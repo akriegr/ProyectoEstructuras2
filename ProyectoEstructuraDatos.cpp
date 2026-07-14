@@ -6,11 +6,15 @@
 #include "VideoJuegoDAO.h"
 #include "ServicioVideoJuego.h"
 #include "ArbolBPlus.h"
+#include "UsuarioDAO.h"
+#include "ServicioUsuario.h"
+#include "ArbolRN.h"
 using namespace std;
 
 //inlcuyo DAO y Servicio
 
 ArbolBPlus arbolito;
+ArbolRN arbolitoRN;
 
 void inicializarArbol() {
     try {
@@ -101,19 +105,40 @@ Categoria obtenerCategoriaPorId(int id) {
 	}
 }
 
+void inicializarArbolRN() {
+    try {
+        auto& dbManager = DBManager::getInstance();
+        ServicioUsuario servicioUsuario(make_unique <UsuarioDAO>(dbManager));
+        vector<Usuario>listaUsuarios = servicioUsuario.obtenerTodosUsuarios();
+
+        for (int i = 0;i < listaUsuarios.size(); i++) {
+			arbolitoRN.insertar(listaUsuarios[i]);
+        }
+        dbManager.disconnect();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+}
+
+
 int main() {
 
     inicializarArbol();
+    inicializarArbolRN();
 
     int opcion = 0;
-    while (opcion != 7) {
+    while (opcion != 15) {
         cout << "****** Opciones ******" << endl;
         cout << "1. Listar Video Juegos" << endl;
         cout << "2. Buscar Video Juego" << endl;
         cout << "3. Eliminar Video Juego" << endl;
 		cout << "4. Actualizar Video Juego" << endl;
 		cout << "5. Insertar Video Juego" << endl;
-        cout << "7. Salir" << endl;
+		cout << "6. Listar Usuarios" << endl;
+        cout << "7. Buscar Usuario por Nombre" << endl;
+		cout << "8. Eliminar Usuario por Nombre" << endl;
+        cout << "15. Salir" << endl;
         cin >> opcion;
 
         switch (opcion) {
@@ -232,11 +257,47 @@ int main() {
 				system("pause");
                 break;
             }
-
+			case 6: {
+				system("cls");
+                arbolitoRN.imprimir();
+				system("pause");
+				break;
+			}
             case 7: {
-                cout << "Saliendo del programa..." << endl;
+                system("cls");
+                string nombre;
+                cout << "Digite el nombre de usuario que desea buscar: "<<endl;
+				cin >> nombre;
+                Usuario* usuarioEncontrado = arbolitoRN.buscar(nombre);
+                if (usuarioEncontrado != nullptr) {
+					cout << "Usuario encontrado: " << endl;
+					cout << "Cedula: " << usuarioEncontrado->getCedula() << endl;
+                    cout << "Nombre: " << usuarioEncontrado->getNombre() << endl;
+                }
+                else {
+					cout << "Usuario no existe" << endl;
+                }
+				system("pause");
                 break;
             }
+            case 8: {
+                system("cls");
+                string nombre;
+                cout << "Digite el nombre de usuario que desea eliminar: " << endl;
+                cin >> nombre;
+                bool eliminado = arbolitoRN.eliminar(nombre);
+                if (eliminado) {
+                    cout << "Usuario eliminado exitosamente" << endl;
+                }
+                else {
+                    cout << "Usuario no existe" << endl;
+                }
+				system("pause");
+                break;
+            }
+			case 15:
+				cout << "Saliendo del programa..." << endl;
+				break;
             default:
                 cout << "Opcion no valida" << endl;
                 break;

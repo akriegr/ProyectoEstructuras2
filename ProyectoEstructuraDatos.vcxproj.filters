@@ -31,6 +31,18 @@
     <Filter Include="Header Files\ArbolBPlus">
       <UniqueIdentifier>{ca18fc58-9ec4-40c7-aa58-e5327b92be4b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Usuario">
+      <UniqueIdentifier>{c9643b7b-f367-4297-888d-d029bc0dd7e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Usuarios">
+      <UniqueIdentifier>{2da2d9d2-8a02-430b-b2cc-76f731ff9f8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ArbolRN">
+      <UniqueIdentifier>{95cc1522-00de-4af0-bd58-082be156422f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ArbolRN">
+      <UniqueIdentifier>{09c6d783-75f7-4a65-a1c8-82b6f755c74a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProyectoEstructuraDatos.cpp">
@@ -47,6 +59,12 @@
     </ClCompile>
     <ClCompile Include="ArbolBPlus.cpp">
       <Filter>Source Files\ArbolBPlus</Filter>
+    </ClCompile>
+    <ClCompile Include="UsuarioDAO.cpp">
+      <Filter>Source Files\Usuarios</Filter>
+    </ClCompile>
+    <ClCompile Include="ArbolRN.cpp">
+      <Filter>Source Files\ArbolRN</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +97,21 @@
     </ClInclude>
     <ClInclude Include="ArbolBPlus.h">
       <Filter>Header Files\ArbolBPlus</Filter>
+    </ClInclude>
+    <ClInclude Include="Usuario.h">
+      <Filter>Header Files\Usuario</Filter>
+    </ClInclude>
+    <ClInclude Include="IUsuarioDAO.h">
+      <Filter>Header Files\Usuario</Filter>
+    </ClInclude>
+    <ClInclude Include="UsuarioDAO.h">
+      <Filter>Header Files\Usuario</Filter>
+    </ClInclude>
+    <ClInclude Include="ServicioUsuario.h">
+      <Filter>Header Files\Usuario</Filter>
+    </ClInclude>
+    <ClInclude Include="ArbolRN.h">
+      <Filter>Header Files\ArbolRN</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
