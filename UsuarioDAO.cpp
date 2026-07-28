@@ -19,6 +19,28 @@ Usuario UsuarioDAO::mapResultSet(sql::ResultSet* rs) {
 
 //CRUD 
 
+//CREATE
+
+bool UsuarioDAO::insertarUsuario(int cedula, string nombre, string contrasena) {
+	try {
+		string query = "INSERT INTO usuario(cedula, nombre, contrasena) VALUES (" + std::to_string(cedula) + ",'" + nombre + "','" + contrasena + "')";
+
+		sql::Statement* stmt = dbManager.getConnection()->createStatement();
+		int filasAfectadas = stmt->executeUpdate(query);
+
+		if (filasAfectadas > 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	catch (const sql::SQLException& e) {
+		cerr << "Error inserting usuario: " << e.what() << std::endl;
+		return false; // Error de SQL
+	}
+}
+
 //READ
 vector<Usuario> UsuarioDAO::ObtenerUsuarios() {
 	std::vector<Usuario> usuarios;
@@ -35,4 +57,35 @@ vector<Usuario> UsuarioDAO::ObtenerUsuarios() {
 		std::cerr << "Error fetching users: " << e.what() << std::endl;
 	}
 	return usuarios;
+}
+
+//update 
+
+bool UsuarioDAO::actualizarUsuario(int idUsuario, std::string nombreNuevo) {
+	try {
+		std::string query = "UPDATE usuario SET nombre = '" + nombreNuevo + "' WHERE cedula = " + std::to_string(idUsuario);
+		sql::Statement* stmt = dbManager.getConnection()->createStatement();
+		int filasAfectadas = stmt->executeUpdate(query);
+		delete stmt;
+		return filasAfectadas > 0; // Retorna true si se actualizó al menos una fila
+	}
+	catch (const sql::SQLException& e) {
+		std::cerr << "Error updating user: " << e.what() << std::endl;
+		return false; // Error de SQL
+	}
+}
+
+// delete
+bool UsuarioDAO::eliminarUsuario(int id) {
+	try {
+		std::string query = "DELETE FROM usuario WHERE cedula = " + std::to_string(id);
+		sql::Statement* stmt = dbManager.getConnection()->createStatement();
+		int filasAfectadas = stmt->executeUpdate(query);
+		delete stmt;
+		return filasAfectadas > 0; // Retorna true si se eliminó al menos una fila
+	}
+	catch (const sql::SQLException& e) {
+		std::cerr << "Error deleting user: " << e.what() << std::endl;
+		return false; // Error de SQL
+	}
 }

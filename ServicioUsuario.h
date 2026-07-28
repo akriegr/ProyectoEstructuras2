@@ -9,7 +9,20 @@ private:
 	unique_ptr<IUsuarioDAO> usuarioDAO;
 public: 
 	ServicioUsuario(unique_ptr<IUsuarioDAO> dao) : usuarioDAO(std::move(dao)) {}
+	
+	bool insertarUsuario(int cedula, string nombre, string contrasena) {
+		return usuarioDAO->insertarUsuario(cedula, nombre, contrasena);
+	}
+
 	vector<Usuario> obtenerTodosUsuarios() {
 		return usuarioDAO->ObtenerUsuarios();
+	}
+
+	bool eliminarUsuario(int id) {
+		return usuarioDAO->eliminarUsuario(id);
+	}
+	
+	bool actualizarUsuario(int idUsuario, string nombreNuevo) {
+		return usuarioDAO->actualizarUsuario(idUsuario, nombreNuevo);
 	}
 };

@@ -121,6 +121,44 @@ void inicializarArbolRN() {
     }
 }
 
+bool eliminarUsuario(int id) {
+	try {
+		auto& dbManager = DBManager::getInstance();
+		ServicioUsuario servicioUsuario(std::make_unique < UsuarioDAO>(dbManager));
+		bool resultado = servicioUsuario.eliminarUsuario(id);
+		return resultado;
+		dbManager.disconnect();
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+	}
+}
+
+bool actualizarUsuario(int idUsuario, string nombreNuevo) {
+	try {
+		auto& dbManager = DBManager::getInstance();
+		ServicioUsuario servicioUsuario(std::make_unique < UsuarioDAO>(dbManager));
+		bool resultado = servicioUsuario.actualizarUsuario(idUsuario, nombreNuevo);
+		return resultado;
+		dbManager.disconnect();
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+	}
+}
+
+bool insertarUsuario(int cedula, string nombre, string contrasenna) {
+	try {
+		auto& dbManager = DBManager::getInstance();
+		ServicioUsuario servicioUsuario(std::make_unique < UsuarioDAO>(dbManager));
+		bool resultado = servicioUsuario.insertarUsuario(cedula, nombre, contrasenna);
+		return resultado;
+		dbManager.disconnect();
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+	}
+}
 
 int main() {
 
@@ -137,16 +175,19 @@ int main() {
 		cout << "5. Insertar Video Juego" << endl;
 		cout << "6. Listar Usuarios" << endl;
         cout << "7. Buscar Usuario por Nombre" << endl;
-		cout << "8. Eliminar Usuario por Nombre" << endl;
+        cout << "8. Eliminar Usuario" << endl;
+        cout << "9. Actualizar Usuario" << endl;
+        cout << "10. Insertar Usuario" << endl;
         cout << "15. Salir" << endl;
         cin >> opcion;
 
         switch (opcion) {
-            case 1:
+            case 1:{
                 system("cls");
                 arbolito.imprimir();
                 system("pause");
                 break;
+            }
             case 2: {
                 system("cls");
                 cout << "Digite el nombre del videojuego que desea buscar: ";
@@ -283,19 +324,80 @@ int main() {
             case 8: {
                 system("cls");
                 string nombre;
+                arbolitoRN.imprimir();
+				cout << "\n" << endl;
                 cout << "Digite el nombre de usuario que desea eliminar: " << endl;
                 cin >> nombre;
-                bool eliminado = arbolitoRN.eliminar(nombre);
-                if (eliminado) {
-                    cout << "Usuario eliminado exitosamente" << endl;
-                }
-                else {
-                    cout << "Usuario no existe" << endl;
-                }
-				system("pause");
+				Usuario* usuarioEncontrado = arbolitoRN.buscar(nombre);
+				if (usuarioEncontrado != nullptr) {
+					bool eliminado = eliminarUsuario(usuarioEncontrado->getCedula());
+					if (eliminado) {
+						arbolitoRN.eliminar(nombre);
+						cout << "Usuario eliminado exitosamente" << endl;
+					}
+					else {
+						cout << "No se pudo eliminar el usuario" << endl;
+					}
+				}
+				else {
+					cout << "Usuario no existe" << endl;
+				}
+                system("pause");
                 break;
             }
-			case 15:
+            case 9: {
+                system("cls");
+                arbolitoRN.imprimir();
+                string nombre;
+                string nuevoNombre;
+                cout << "\n" << endl;
+                cout << "Digite el nombre del usuario que desea editar." << endl;
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                getline(cin, nombre);
+				Usuario* usuarioEncontrado = arbolitoRN.buscar(nombre);
+				if (usuarioEncontrado != nullptr) {
+					cout << "Digite el nuevo nombre: " << endl;
+					getline(cin, nuevoNombre);
+					bool actualizado = actualizarUsuario(usuarioEncontrado->getCedula(), nuevoNombre);
+					if (actualizado) {
+						arbolitoRN.actualizarNombre(nombre,nuevoNombre);
+
+						cout << "Usuario actualizado exitosamente" << endl;
+					}
+					else {
+						cout << "No se encontro el usuario" << endl;
+					}
+				}
+				else {
+					cout << "No se encontro el usuario" << endl;
+				}
+				system("pause");
+				break;
+            }
+            case 10: {
+				system("cls");
+				string nombre;
+				int cedula;
+                string contrasena;
+				cout << "Digite el numero de cedula del usuario: " << endl;
+				cin >> cedula;
+                cout << "Digite el nombre del usuario que desea crear: " << endl;
+				cin.ignore(numeric_limits<streamsize>::max(), '\n');
+				getline(cin, nombre);
+				cout << "Digite la contrasena del usuario: " << endl;
+                getline(cin, contrasena);
+				bool creado = insertarUsuario(cedula, nombre, contrasena);
+                if (creado) {
+					arbolitoRN.insertar(Usuario(cedula, nombre, contrasena));
+					cout << "Usuario creado exitosamente!" << endl;
+                }
+                else {
+					cout << "Error al crear usuario" << endl;
+                }
+                system("pause");
+                break;
+            }
+            case 15:
 				cout << "Saliendo del programa..." << endl;
 				break;
             default:

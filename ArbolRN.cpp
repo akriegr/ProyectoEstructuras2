@@ -342,3 +342,33 @@ void ArbolRN::imprimir() const {
 	cout << "**********************************" << endl;
 }
 
+bool ArbolRN::actualizarNombre(const string& nombreAntiguo, const string& nombreNuevo) {
+	// busco el usuario por nombre
+	NodoRN* nodo = buscarPorNombre(raiz, nombreAntiguo);
+	if (nodo == nullptr) {
+		cout << "Usuario no encontrado: " << nombreAntiguo << endl;
+		return false;
+	}
+
+	// reviso si el nuevo nombre ya existe
+	NodoRN* existe = buscarPorNombre(raiz, nombreNuevo);
+	if (existe != nullptr && existe != nodo) {
+		cout << "El nombre '" << nombreNuevo << "' ya existe en el árbol" << endl;
+		return false;
+	}
+
+	// agarro la cédula y contra
+	int cedula = nodo->usuario.getCedula();
+	string contasenna = nodo->usuario.getContrasenna();
+
+	// elimino el nodo actual
+	eliminarNodo(nodo);
+
+	// meto usuario con el nuevo nombre
+	Usuario usuarioActualizado(cedula,nombreNuevo,contasenna);
+
+	insertar(usuarioActualizado);
+
+	return true;
+}
+

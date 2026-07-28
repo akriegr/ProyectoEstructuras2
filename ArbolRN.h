@@ -36,6 +36,7 @@ public:
 	void insertar(const Usuario& usuario); //metodo para insertar un nuevo usuario
 	bool eliminar(const string& nombre); //metodo para eliminar un usuario por nombre
 	Usuario* buscar(const string& nombre) const; //metodo para buscar un usuario por nombre
+	bool actualizarNombre(const string& nombreAntiguo, const string& nombreNuevo);
 	bool existe(const string& nombre) const; //metodo para verificar si un usuario existe por nombre
 	void imprimir() const; //metodo para imprimir el arbol en orden
 
