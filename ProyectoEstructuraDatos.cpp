@@ -9,12 +9,31 @@
 #include "UsuarioDAO.h"
 #include "ServicioUsuario.h"
 #include "ArbolRN.h"
+#include "JuegoDAO.h"
+#include "ServicioJuego.h"
+#include "ResultadoDAO.h"
+#include "ServicioResultado.h"
+#include <ctime>
+#include <string>
+#include <sstream>
+#include <iomanip>
+
 using namespace std;
 
 //inlcuyo DAO y Servicio
 
 ArbolBPlus arbolito;
 ArbolRN arbolitoRN;
+
+string obtenerFecha() {
+    time_t now = time(0);
+    struct tm localTime;
+    localtime_s(&localTime, &now);  // Windows: localtime_s
+    //hacer fecha YYYY-MM-DD
+    char buffer[11];  // "YYYY-MM-DD" + null terminator
+    strftime(buffer, sizeof(buffer), "%Y-%m-%d", &localTime);
+    return string(buffer);
+}
 
 void inicializarArbol() {
     try {
@@ -160,6 +179,57 @@ bool insertarUsuario(int cedula, string nombre, string contrasenna) {
 	}
 }
 
+void imprimirJuegos() {
+    try {
+        auto& dbManager = DBManager::getInstance();
+        ServicioJuego servicioJuego(make_unique <JuegoDAO>(dbManager));
+        vector<Juego>listaJuegos = servicioJuego.obtenerJuegos();
+        for (const auto& juego : listaJuegos) {
+            cout << "ID: " << juego.getId() << ", Fecha: " << juego.getFecha()<<" VideoJuego: " << juego.getVideoJuego().getNombre() << endl;
+        }
+        dbManager.disconnect();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+}
+
+void imprimirResultados() {
+    try {
+        auto& dbManager = DBManager::getInstance();
+        ServicioResultado servicioResultado(make_unique <ResultadoDAO>(dbManager));
+        vector<Resultado>listaResultados = servicioResultado.obtenerResultados();
+        for (const auto& resultado : listaResultados) {
+            string ganado = "";
+            if (resultado.isGanado()==true) {
+                ganado = "Si";
+            }
+            else {
+				ganado = "No";
+            }
+            cout << "ID: " << resultado.getIdResultado() << ", VideoJuego: " << resultado.getJuego().getVideoJuego().getNombre() << " Ganado: " << ganado << " Puntos: " << resultado.getPuntos() << " Usuario: " << resultado.getUsuario().getNombre() << endl;
+        }
+        dbManager.disconnect();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+}
+
+bool insertarJuego(int idVideoJuego) {
+	try {
+		auto& dbManager = DBManager::getInstance();
+		string fecha = obtenerFecha();
+		ServicioJuego servicioJuego(std::make_unique<JuegoDAO>(dbManager));
+		bool resultado = servicioJuego.insertarJuego(fecha, idVideoJuego);
+		return resultado;
+		dbManager.disconnect();
+	}
+	catch (const std::exception& e) {
+		std::cerr << "Error: " << e.what() << std::endl;
+	}
+}
+
 int main() {
 
     inicializarArbol();
@@ -167,6 +237,7 @@ int main() {
 
     int opcion = 0;
     while (opcion != 15) {
+		system("cls");
         cout << "****** Opciones ******" << endl;
         cout << "1. Listar Video Juegos" << endl;
         cout << "2. Buscar Video Juego" << endl;
@@ -178,6 +249,9 @@ int main() {
         cout << "8. Eliminar Usuario" << endl;
         cout << "9. Actualizar Usuario" << endl;
         cout << "10. Insertar Usuario" << endl;
+		cout << "11. Listar Juegos" << endl;
+		cout << "12. Crear Juego" << endl;
+		cout << "13. Listar Resultados" << endl;
         cout << "15. Salir" << endl;
         cin >> opcion;
 
@@ -394,6 +468,38 @@ int main() {
                 else {
 					cout << "Error al crear usuario" << endl;
                 }
+                system("pause");
+                break;
+            }
+            case 11: {
+                system("cls");
+				imprimirJuegos();
+				system("pause");
+                break;
+            }
+            case 12: {
+                system("cls");
+                int idVideojuego = 0;
+
+				cout << "Digite el ID del videojuego del juego: " << endl;
+				cin >> idVideojuego;
+
+				bool insertado = insertarJuego(idVideojuego);
+
+                if (insertado) {
+					cout << "Juego insertado exitosamente!" << endl;
+                }else{
+					cout << "Error al insertar el juego" << endl;
+				}
+				system("pause");
+
+                break;
+            }
+            case 13: {
+                system("cls");
+
+                imprimirResultados();
+
                 system("pause");
                 break;
             }

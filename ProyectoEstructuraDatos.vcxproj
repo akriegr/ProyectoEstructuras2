@@ -146,7 +146,9 @@
     <ClCompile Include="ArbolRN.cpp" />
     <ClCompile Include="CategoriaDAO.cpp" />
     <ClCompile Include="DBManager.cpp" />
+    <ClCompile Include="JuegoDAO.cpp" />
     <ClCompile Include="ProyectoEstructuraDatos.cpp" />
+    <ClCompile Include="ResultadoDAO.cpp" />
     <ClCompile Include="UsuarioDAO.cpp" />
     <ClCompile Include="VideoJuegoDAO.cpp" />
   </ItemGroup>
@@ -157,11 +159,20 @@
     <ClInclude Include="CategoriaDAO.h" />
     <ClInclude Include="DBManager.h" />
     <ClInclude Include="ICategoriaDAO.h" />
+    <ClInclude Include="IJuegoDAO.h" />
+    <ClInclude Include="IResultadoDAO.h" />
     <ClInclude Include="IUsuarioDAO.h" />
     <ClInclude Include="IVideoJuegoDAO.h" />
+    <ClInclude Include="Juego.h" />
+    <ClInclude Include="JuegoDAO.h" />
+    <ClInclude Include="Resultado.h" />
+    <ClInclude Include="ResultadoDAO.h" />
     <ClInclude Include="ServicioCategoria.h" />
+    <ClInclude Include="ServicioJuego.h" />
+    <ClInclude Include="ServicioResultado.h" />
     <ClInclude Include="ServicioUsuario.h" />
     <ClInclude Include="ServicioVideoJuego.h" />
+    <ClInclude Include="TablaHash.h" />
     <ClInclude Include="Usuario.h" />
     <ClInclude Include="UsuarioDAO.h" />
     <ClInclude Include="VideoJuego.h" />

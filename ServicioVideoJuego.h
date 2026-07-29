@@ -28,13 +28,4 @@ public:
 		return videojuegoDAO->eliminar(id);
 	}
 
-	//metodos para interactuar con la bd
-	/*
-
-	std::optional<VideoJuego> obtenerVideoJuegoPorId(int id) {
-		return videojuegoDAO->obtenerPorId(id);
-	}
-
-	*/
-
 };

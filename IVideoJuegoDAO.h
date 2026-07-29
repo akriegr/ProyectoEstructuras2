@@ -16,6 +16,4 @@ public:
 	virtual bool actualizar(int idVideoJuego, string nombreNuevo) = 0;
 	virtual bool eliminar(int id) = 0;	
 
-	//Consultas adicionales
-
 };
