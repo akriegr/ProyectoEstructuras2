@@ -149,6 +149,7 @@
     <ClCompile Include="JuegoDAO.cpp" />
     <ClCompile Include="ProyectoEstructuraDatos.cpp" />
     <ClCompile Include="ResultadoDAO.cpp" />
+    <ClCompile Include="TablaHash.cpp" />
     <ClCompile Include="UsuarioDAO.cpp" />
     <ClCompile Include="VideoJuegoDAO.cpp" />
   </ItemGroup>

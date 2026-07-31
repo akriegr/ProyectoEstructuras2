@@ -13,6 +13,7 @@
 #include "ServicioJuego.h"
 #include "ResultadoDAO.h"
 #include "ServicioResultado.h"
+#include "TablaHash.h"
 #include <ctime>
 #include <string>
 #include <sstream>
@@ -24,6 +25,7 @@ using namespace std;
 
 ArbolBPlus arbolito;
 ArbolRN arbolitoRN;
+TablaHash tablita;
 
 string obtenerFecha() {
     time_t now = time(0);
@@ -194,7 +196,7 @@ void imprimirJuegos() {
     }
 }
 
-void imprimirResultados() {
+/*void imprimirResultados() {
     try {
         auto& dbManager = DBManager::getInstance();
         ServicioResultado servicioResultado(make_unique <ResultadoDAO>(dbManager));
@@ -214,7 +216,7 @@ void imprimirResultados() {
     catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;
     }
-}
+}*/
 
 bool insertarJuego(int idVideoJuego) {
 	try {
@@ -230,10 +232,26 @@ bool insertarJuego(int idVideoJuego) {
 	}
 }
 
+void incializarTablaHash() {
+    try {
+        auto& dbManager = DBManager::getInstance();
+        ServicioResultado servicioResultado(make_unique <ResultadoDAO>(dbManager));
+        vector<Resultado>listaResultados = servicioResultado.obtenerResultados();
+        for (const auto& resultado : listaResultados) {
+			tablita.insertar(resultado);
+        }
+        dbManager.disconnect();
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+}
+
 int main() {
 
     inicializarArbol();
     inicializarArbolRN();
+    incializarTablaHash();
 
     int opcion = 0;
     while (opcion != 15) {
@@ -252,6 +270,7 @@ int main() {
 		cout << "11. Listar Juegos" << endl;
 		cout << "12. Crear Juego" << endl;
 		cout << "13. Listar Resultados" << endl;
+        cout << "14. Buscar Resultado" << endl;
         cout << "15. Salir" << endl;
         cin >> opcion;
 
@@ -498,10 +517,37 @@ int main() {
             case 13: {
                 system("cls");
 
-                imprimirResultados();
+                tablita.verResultados();
 
                 system("pause");
                 break;
+            }
+            case 14: {
+                system("cls");
+
+                tablita.verResultados();
+                cout << "Digite el id del resultado que desea ver:" << endl;
+                int idResultado; 
+                cin >> idResultado;
+
+                Resultado* resultadoEncontrado = tablita.buscar(idResultado);
+                string ganado; 
+
+                if (resultadoEncontrado->isGanado()) {
+                    ganado = "Si";
+                }
+                else {
+                    ganado = "No";
+                }
+
+                cout << "Resultado: " << endl;
+                cout << "FECHA: " << resultadoEncontrado->getJuego().getFecha() << endl;
+				cout << "VIDEOJUEGO: " << resultadoEncontrado->getJuego().getVideoJuego().getNombre() << endl;
+				cout << "PUNTOS: " << resultadoEncontrado->getPuntos() << endl;
+                cout << "GANADO: " << ganado << endl;
+                cout << "USUARIO: " << resultadoEncontrado->getUsuario().getNombre() << endl;
+				system("pause");
+				break;
             }
             case 15:
 				cout << "Saliendo del programa..." << endl;
