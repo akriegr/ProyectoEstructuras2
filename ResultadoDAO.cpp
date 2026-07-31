@@ -36,7 +36,8 @@ Resultado ResultadoDAO::mapResultSet(sql::ResultSet* rs) {
 	int cedula = rs->getInt("cedula");
 	string nombre = rs->getString("nombre_usuario").c_str();
 	string contrasena = rs->getString("contrasena").c_str();
-	Usuario usuario(cedula, nombre, contrasena);
+	string correo = rs->getString("correo").c_str();
+	Usuario usuario(cedula, nombre, contrasena,correo);
 
 	return Resultado(idResultado,puntos,ganado,juego,usuario);
 }

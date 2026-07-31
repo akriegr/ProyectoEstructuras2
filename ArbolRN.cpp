@@ -275,7 +275,8 @@ void ArbolRN::imprimirEnOrden(NodoRN* nodo) const {
 		imprimirEnOrden(nodo->izquierda);
 		cout << "Nombre: " << nodo->usuario.getNombre()
 			<< " (Cedula: " << nodo->usuario.getCedula() << ")"
-			/* << " Color: " << (nodo->esRojo ? "ROJO" : "NEGRO")*/ << endl;
+			<< " (Correo: " << nodo->usuario.getCorreo() << ")"
+			 << endl;
 		imprimirEnOrden(nodo->derecha);
 	}
 }
@@ -363,9 +364,10 @@ bool ArbolRN::actualizarNombre(const string& nombreAntiguo, const string& nombre
 
 	// elimino el nodo actual
 	eliminarNodo(nodo);
+	string correo = nodo->usuario.getCorreo();
 
 	// meto usuario con el nuevo nombre
-	Usuario usuarioActualizado(cedula,nombreNuevo,contasenna);
+	Usuario usuarioActualizado(cedula,nombreNuevo,contasenna,correo);
 
 	insertar(usuarioActualizado);
 

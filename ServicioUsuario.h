@@ -10,8 +10,8 @@ private:
 public: 
 	ServicioUsuario(unique_ptr<IUsuarioDAO> dao) : usuarioDAO(std::move(dao)) {}
 	
-	bool insertarUsuario(int cedula, string nombre, string contrasena) {
-		return usuarioDAO->insertarUsuario(cedula, nombre, contrasena);
+	bool insertarUsuario(int cedula, string nombre, string contrasena, string correo) {
+		return usuarioDAO->insertarUsuario(cedula, nombre, contrasena, correo);
 	}
 
 	vector<Usuario> obtenerTodosUsuarios() {

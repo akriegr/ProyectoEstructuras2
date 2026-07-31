@@ -13,17 +13,18 @@ Usuario UsuarioDAO::mapResultSet(sql::ResultSet* rs) {
 	int id = rs->getInt("cedula");
 	std::string nombre = rs->getString("nombre").c_str();
 	std::string contrasena= rs->getString("contrasena").c_str();
+	std::string correo = rs->getString("correo").c_str();
 
-	return Usuario(id, nombre, contrasena);
+	return Usuario(id, nombre, contrasena, correo);
 }
 
 //CRUD 
 
 //CREATE
 
-bool UsuarioDAO::insertarUsuario(int cedula, string nombre, string contrasena) {
+bool UsuarioDAO::insertarUsuario(int cedula, string nombre, string contrasena,string correo) {
 	try {
-		string query = "INSERT INTO usuario(cedula, nombre, contrasena) VALUES (" + std::to_string(cedula) + ",'" + nombre + "','" + contrasena + "')";
+		string query = "INSERT INTO usuario(cedula, nombre, contrasena, correo) VALUES (" + std::to_string(cedula) + ",'" + nombre + "','" + contrasena + "','" + correo + "')";
 
 		sql::Statement* stmt = dbManager.getConnection()->createStatement();
 		int filasAfectadas = stmt->executeUpdate(query);
@@ -49,12 +50,12 @@ vector<Usuario> UsuarioDAO::ObtenerUsuarios() {
 		// Obtener Statement y ResultSet juntos
 		auto [stmt, rs] = dbManager.executeQueryWithStatement(query);
 		while (rs->next()) {
-			Usuario user = mapResultSet(rs.get());
-			usuarios.push_back(user);
+			Usuario usuario = mapResultSet(rs.get());
+			usuarios.push_back(usuario);
 		}
 	}
 	catch (const sql::SQLException& e) {
-		std::cerr << "Error fetching users: " << e.what() << std::endl;
+		std::cerr << "Error fetching usuario: " << e.what() << std::endl;
 	}
 	return usuarios;
 }
@@ -85,7 +86,7 @@ bool UsuarioDAO::eliminarUsuario(int id) {
 		return filasAfectadas > 0; // Retorna true si se eliminó al menos una fila
 	}
 	catch (const sql::SQLException& e) {
-		std::cerr << "Error deleting user: " << e.what() << std::endl;
+		std::cerr << "Error deleting usuario: " << e.what() << std::endl;
 		return false; // Error de SQL
 	}
 }

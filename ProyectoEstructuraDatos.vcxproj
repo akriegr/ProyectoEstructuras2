@@ -148,6 +148,7 @@
     <ClCompile Include="DBManager.cpp" />
     <ClCompile Include="JuegoDAO.cpp" />
     <ClCompile Include="ProyectoEstructuraDatos.cpp" />
+    <ClCompile Include="QueueCorreos.cpp" />
     <ClCompile Include="ResultadoDAO.cpp" />
     <ClCompile Include="TablaHash.cpp" />
     <ClCompile Include="UsuarioDAO.cpp" />
@@ -158,6 +159,8 @@
     <ClInclude Include="ArbolRN.h" />
     <ClInclude Include="Categoria.h" />
     <ClInclude Include="CategoriaDAO.h" />
+    <ClInclude Include="QueueCorreos.h" />
+    <ClInclude Include="DataSMTP.h" />
     <ClInclude Include="DBManager.h" />
     <ClInclude Include="ICategoriaDAO.h" />
     <ClInclude Include="IJuegoDAO.h" />

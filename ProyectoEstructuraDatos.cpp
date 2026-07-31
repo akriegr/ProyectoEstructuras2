@@ -14,6 +14,8 @@
 #include "ResultadoDAO.h"
 #include "ServicioResultado.h"
 #include "TablaHash.h"
+#include "QueueCorreos.h"
+#include <chrono>
 #include <ctime>
 #include <string>
 #include <sstream>
@@ -26,6 +28,8 @@ using namespace std;
 ArbolBPlus arbolito;
 ArbolRN arbolitoRN;
 TablaHash tablita;
+DataSMTP dataSMTP;
+QueueCorreos cola(dataSMTP);
 
 string obtenerFecha() {
     time_t now = time(0);
@@ -168,11 +172,11 @@ bool actualizarUsuario(int idUsuario, string nombreNuevo) {
 	}
 }
 
-bool insertarUsuario(int cedula, string nombre, string contrasenna) {
+bool insertarUsuario(int cedula, string nombre, string contrasenna,string correo) {
 	try {
 		auto& dbManager = DBManager::getInstance();
 		ServicioUsuario servicioUsuario(std::make_unique < UsuarioDAO>(dbManager));
-		bool resultado = servicioUsuario.insertarUsuario(cedula, nombre, contrasenna);
+		bool resultado = servicioUsuario.insertarUsuario(cedula, nombre, contrasenna,correo);
 		return resultado;
 		dbManager.disconnect();
 	}
@@ -195,28 +199,6 @@ void imprimirJuegos() {
         std::cerr << "Error: " << e.what() << std::endl;
     }
 }
-
-/*void imprimirResultados() {
-    try {
-        auto& dbManager = DBManager::getInstance();
-        ServicioResultado servicioResultado(make_unique <ResultadoDAO>(dbManager));
-        vector<Resultado>listaResultados = servicioResultado.obtenerResultados();
-        for (const auto& resultado : listaResultados) {
-            string ganado = "";
-            if (resultado.isGanado()==true) {
-                ganado = "Si";
-            }
-            else {
-				ganado = "No";
-            }
-            cout << "ID: " << resultado.getIdResultado() << ", VideoJuego: " << resultado.getJuego().getVideoJuego().getNombre() << " Ganado: " << ganado << " Puntos: " << resultado.getPuntos() << " Usuario: " << resultado.getUsuario().getNombre() << endl;
-        }
-        dbManager.disconnect();
-    }
-    catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
-}*/
 
 bool insertarJuego(int idVideoJuego) {
 	try {
@@ -247,14 +229,30 @@ void incializarTablaHash() {
     }
 }
 
+void enviarCorreoJuegoCreado(Usuario usuario) {
+
+	if (usuario.getCorreo().empty()) {
+		cout << "El usuario no tiene correo electrónico registrado." << endl;
+		return;
+	}
+
+    Correo correo;
+    correo.remitente = dataSMTP.usuario;
+    correo.destinatario = usuario.getCorreo();
+    correo.asunto = "Juego Creado";
+    correo.cuerpo = "Se ha creado un nuevo juego. ¡Disfrútalo!";
+    cola.agregarCorreo(correo);
+}
+
 int main() {
 
     inicializarArbol();
     inicializarArbolRN();
     incializarTablaHash();
+    
 
     int opcion = 0;
-    while (opcion != 15) {
+    while (opcion != 20) {
 		system("cls");
         cout << "****** Opciones ******" << endl;
         cout << "1. Listar Video Juegos" << endl;
@@ -271,7 +269,8 @@ int main() {
 		cout << "12. Crear Juego" << endl;
 		cout << "13. Listar Resultados" << endl;
         cout << "14. Buscar Resultado" << endl;
-        cout << "15. Salir" << endl;
+        cout << "15 Enviar Correo" << endl;
+        cout << "20. Salir" << endl;
         cin >> opcion;
 
         switch (opcion) {
@@ -405,6 +404,7 @@ int main() {
                 Usuario* usuarioEncontrado = arbolitoRN.buscar(nombre);
                 if (usuarioEncontrado != nullptr) {
 					cout << "Usuario encontrado: " << endl;
+					cout << "Correo: " << usuarioEncontrado->getCorreo() << endl;
 					cout << "Cedula: " << usuarioEncontrado->getCedula() << endl;
                     cout << "Nombre: " << usuarioEncontrado->getNombre() << endl;
                 }
@@ -472,6 +472,7 @@ int main() {
 				string nombre;
 				int cedula;
                 string contrasena;
+                string correo;
 				cout << "Digite el numero de cedula del usuario: " << endl;
 				cin >> cedula;
                 cout << "Digite el nombre del usuario que desea crear: " << endl;
@@ -479,9 +480,11 @@ int main() {
 				getline(cin, nombre);
 				cout << "Digite la contrasena del usuario: " << endl;
                 getline(cin, contrasena);
-				bool creado = insertarUsuario(cedula, nombre, contrasena);
+                cout << "Digite el correo del usuario: " << endl;
+                getline(cin, correo);
+				bool creado = insertarUsuario(cedula, nombre, contrasena,correo);
                 if (creado) {
-					arbolitoRN.insertar(Usuario(cedula, nombre, contrasena));
+					arbolitoRN.insertar(Usuario(cedula, nombre, contrasena,correo));
 					cout << "Usuario creado exitosamente!" << endl;
                 }
                 else {
@@ -549,7 +552,28 @@ int main() {
 				system("pause");
 				break;
             }
-            case 15:
+            case 15: {
+                Correo correitoTest;
+                Correo correitoTest2;
+                correitoTest.remitente = "test@gmail.com";
+                correitoTest.destinatario = "toonyk98@gmail.com";
+                correitoTest.asunto = "Ojala esto sirva";
+                correitoTest.cuerpo = "Esto sirvio aleluya";
+                correitoTest2.remitente = "test@gmail.com";
+                correitoTest2.destinatario = "toonyk98@gmail.com";
+                correitoTest2.asunto = "Test 2";
+                correitoTest2.cuerpo = "Esto sirvio aleluya 2";
+                cola.agregarCorreo(correitoTest);
+                cola.agregarCorreo(correitoTest2);
+
+                this_thread::sleep_for(chrono::seconds(10));
+
+                cout << "Correos Restantes: " << cola.pendientes() << endl;
+
+
+
+            }
+            case 20:
 				cout << "Saliendo del programa..." << endl;
 				break;
             default:
