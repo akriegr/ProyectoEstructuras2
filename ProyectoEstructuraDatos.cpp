@@ -570,8 +570,8 @@ int main() {
 
                 cout << "Correos Restantes: " << cola.pendientes() << endl;
 
-
-
+				system("pause");
+				break;
             }
             case 20:
 				cout << "Saliendo del programa..." << endl;
